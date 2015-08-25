@@ -24,13 +24,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUi() {
         createNormalBarView();
+        createDivider();
         createBarViewWithoutValueSign();
+        createDivider();
         createBarViewInMinPosition();
+        createDivider();
         createBarViewInMaxPosition();
+        createDivider();
         createBarViewWithValueInLastSegment();
+        createDivider();
         createBarViewWithManySegments();
+        createDivider();
         createBarViewWithOneSegment();
+        createDivider();
         createBarViewWithTwoSegments();
+    }
+
+    private void createDivider() {
+        LinearLayout divider = new LinearLayout(this);
+        divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 20));
+        mainLayout.addView(divider);
     }
 
     private void createNormalBarView() {
@@ -63,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setMinValue(0);
         segmentedProgressView.setMaxValue(20);
         segmentedProgressView.setSegments(segments);
+        segmentedProgressView.setShowDescriptionText(true);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         mainLayout.addView(segmentedProgressView);
     }

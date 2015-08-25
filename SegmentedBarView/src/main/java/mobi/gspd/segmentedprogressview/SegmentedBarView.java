@@ -35,15 +35,18 @@ public class SegmentedBarView extends View {
     private Paint descriptionTextPaint;
     private DecimalFormat df = new DecimalFormat();
     private int valueSignHeight = 120;
+    private int valueSignWidth = 300;
     private int arrowHeight = 20;
     private int roundingRadius = 0;
     private int arrowWidth = 40;
 
+    private boolean showDescriptionText = false;
 
     public SegmentedBarView(Context context) {
         super(context);
         init();
     }
+
 
     public SegmentedBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -123,8 +126,10 @@ public class SegmentedBarView extends View {
 
             drawTextCentredInRect(canvas, textPaint, textToShow, rectBounds);
 
-            drawTextCentredInRect(canvas, descriptionTextPaint, segment.getDescriptionText(),
-                    new Rect(rectBounds.left, rectBounds.bottom, rectBounds.right, rectBounds.bottom + rectBounds.height()));
+            if (showDescriptionText) {
+                drawTextCentredInRect(canvas, descriptionTextPaint, segment.getDescriptionText(),
+                        new Rect(rectBounds.left, rectBounds.bottom, rectBounds.right, rectBounds.bottom + rectBounds.height()));
+            }
         }
 
         if (showValue) {
@@ -133,7 +138,7 @@ public class SegmentedBarView extends View {
     }
 
     private void drawValueSign(Canvas canvas, int valueSignSpaceHeight, int valueSignCenter) {
-        valueSignBounds.set(valueSignCenter - 150, 0, valueSignCenter + 150, valueSignHeight - arrowHeight);
+        valueSignBounds.set(valueSignCenter - valueSignWidth / 2, 0, valueSignCenter + valueSignWidth / 2, valueSignHeight - arrowHeight);
         paint.setColor(Color.parseColor("#7492E2"));
         if (valueSignBounds.left < 0) {
             int difference = -valueSignBounds.left;
@@ -178,20 +183,18 @@ public class SegmentedBarView extends View {
         canvas.drawPath(path, paint);
     }
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-//        int parentHeight = valueSignHeight + arrowHeight + barHeight * 2;
-//        this.setMeasuredDimension(parentWidth, parentHeight);
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = getMeasuredWidth();
-        if (value == -1) valueSignHeight = 0;
-        setMeasuredDimension(width, valueSignHeight + arrowHeight + barHeight * 2);
+        int height = barHeight;
+        if (value != -1) {
+            height += valueSignHeight;
+        }
+        if (showDescriptionText) {
+            height += barHeight;
+        }
+        setMeasuredDimension(width, height);
     }
 
     private void init() {
@@ -257,5 +260,9 @@ public class SegmentedBarView extends View {
 
     public void setAccuracyAfterPoint(int accuracyAfterPoint) {
         this.accuracyAfterPoint = accuracyAfterPoint;
+    }
+
+    public void setShowDescriptionText(boolean showDescriptionText) {
+        this.showDescriptionText = showDescriptionText;
     }
 }
