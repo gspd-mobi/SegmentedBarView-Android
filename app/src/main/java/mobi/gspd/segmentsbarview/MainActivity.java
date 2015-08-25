@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         createDivider();
         createBarViewInMaxPosition();
         createDivider();
-        createBarViewWithValueInLastSegment();
+        createBarViewWithCustomSettings();
         createDivider();
         createBarViewWithManySegments();
         createDivider();
@@ -117,19 +117,26 @@ public class MainActivity extends AppCompatActivity {
         mainLayout.addView(segmentedProgressView);
     }
 
-    private void createBarViewWithValueInLastSegment() {
+    private void createBarViewWithCustomSettings() {
         SegmentedBarView segmentedProgressView = new SegmentedBarView(this);
         ArrayList<Segment> segments = new ArrayList<>();
-        Segment segment = new Segment(0, 20f, "Low", Color.parseColor("#EF3D2F"));
+        Segment segment = new Segment(0, 20f, "Bad", Color.parseColor("#2C3E50"));
         segments.add(segment);
-        Segment segment2 = new Segment(20f, 50f, "Optimal", Color.parseColor("#8CC63E"));
+        Segment segment2 = new Segment(20f, 50f, "Ok", Color.parseColor("#5F91A6"));
         segments.add(segment2);
-        Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
+        Segment segment3 = new Segment(50f, 100f, "Good", Color.parseColor("#ED8C2B"));
         segments.add(segment3);
+        Segment segment4 = new Segment(100f, 150f, "Perfect", Color.parseColor("#911146"));
+        segments.add(segment4);
+        segmentedProgressView.setValueSignColor(Color.parseColor("#1A5717"));
         segmentedProgressView.setMinValue(0);
         segmentedProgressView.setMaxValue(100);
         segmentedProgressView.setValue(90);
+        segmentedProgressView.setBarHeight(140);
+        segmentedProgressView.setValueSignSize(220, 130);
         segmentedProgressView.setSegments(segments);
+        segmentedProgressView.setShowText(false);
+        segmentedProgressView.setShowDescriptionText(true);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         mainLayout.addView(segmentedProgressView);
     }

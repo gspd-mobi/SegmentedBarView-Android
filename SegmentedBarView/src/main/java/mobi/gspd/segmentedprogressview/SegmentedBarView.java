@@ -22,93 +22,117 @@ public class SegmentedBarView extends View {
     private float maxValue;
     private float value = -1;
     private int accuracyAfterPoint = 2;
-    private int gapSize = 4;
-    private int barHeight = 80;
 
     private Rect rectBounds;
     private Rect textBounds;
     private Rect valueSignBounds;
     private RectF roundRectangleBounds;
     private Paint paint;
-
     private Paint textPaint;
     private Paint descriptionTextPaint;
+
     private DecimalFormat df = new DecimalFormat();
+
     private int valueSignHeight = 120;
+    private int valueSignColor = Color.parseColor("#7492E2");
     private int valueSignWidth = 300;
     private int arrowHeight = 20;
-    private int roundingRadius = 0;
     private int arrowWidth = 40;
+    private int gapSize = 4;
+    private int barHeight = 80;
+
+    private int barRoundingRadius = 0;
+    private int valueSignCenter = 0;
 
     private boolean showDescriptionText = false;
+    private boolean showText = true;
+
+    private int sideStyle = SegmentedBarViewSideStyle.NORMAL;
 
     public SegmentedBarView(Context context) {
         super(context);
         init();
     }
 
-
     public SegmentedBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int segmentsCount = segments.size();
 
-        boolean showValue = value != -1;
-        int valueSignSpaceHeight = showValue ? valueSignHeight : 0;
-        int valueSignCenter = 0;
+        valueSignCenter = 0;
 
-        for (int i = 0; i < segmentsCount; i++) {
-            Segment segment = segments.get(i);
+        int segmentsSize = segments.size();
+        if (segments != null && segmentsSize > 0) {
+            for (int i = 0; i < segmentsSize; i++) {
+                Segment segment = segments.get(i);
 
-            boolean isLeftSegment = i == 0;
-            boolean isRightSegment = i == segmentsCount - 1;
-            boolean isLeftAndRight = isLeftSegment && isRightSegment;
+                drawSegment(canvas, segment, i, segmentsSize);
+            }
+        } else {
+            drawEmptySegment();
+        }
 
-            int singleWidth = getWidth() / segmentsCount;
-            int left = singleWidth * i + gapSize;
-            int right = singleWidth * (i + 1) - gapSize;
-            rectBounds.set(left, valueSignSpaceHeight, right, barHeight + valueSignSpaceHeight);
+        if (!valueIsEmpty()) {
+            drawValueSign(canvas, valueSignSpaceHeight(), valueSignCenter);
+        }
+    }
 
-            if (showValue) {
-                if (value >= segment.getMinValue() && value < segment.getMaxValue() || (isRightSegment && segment.getMaxValue() == value)) {
-                    float valueSignCenterPercent = (value - segment.getMinValue()) / (segment.getMaxValue() - segment.getMinValue());
-                    valueSignCenter = (int) (left + valueSignCenterPercent * singleWidth);
+    private void drawEmptySegment() {
+        //todo
+    }
+
+    private void drawSegment(Canvas canvas, Segment segment, int i, int segmentsSize) {
+
+        boolean isLeftSegment = i == 0;
+        boolean isRightSegment = i == segmentsSize - 1;
+        boolean isLeftAndRight = isLeftSegment && isRightSegment;
+
+        int singleWidth = getWidth() / segmentsSize;
+        int left = singleWidth * i + gapSize;
+        int right = singleWidth * (i + 1) - gapSize;
+        rectBounds.set(left, valueSignSpaceHeight(), right, barHeight + valueSignSpaceHeight());
+
+        if (!valueIsEmpty()) {
+            if (value >= segment.getMinValue() && value < segment.getMaxValue() || (isRightSegment && segment.getMaxValue() == value)) {
+                float valueSignCenterPercent = (value - segment.getMinValue()) / (segment.getMaxValue() - segment.getMinValue());
+                valueSignCenter = (int) (left + valueSignCenterPercent * singleWidth);
+            }
+        }
+
+        paint.setColor(segment.getColor());
+
+        if (isLeftSegment || isRightSegment) {
+            barRoundingRadius = rectBounds.height() / 2;
+            roundRectangleBounds.set(rectBounds.left, rectBounds.top, rectBounds.right, rectBounds.bottom);
+            canvas.drawRoundRect(roundRectangleBounds, barRoundingRadius, barRoundingRadius, paint);
+            if (!isLeftAndRight) {
+                if (isLeftSegment) {
+                    rectBounds.set(left + barRoundingRadius, valueSignSpaceHeight(), right, barHeight + valueSignSpaceHeight());
+                    canvas.drawRect(
+                            rectBounds,
+                            paint
+                    );
+                } else {
+                    rectBounds.set(left, valueSignSpaceHeight(), right - barRoundingRadius, barHeight + valueSignSpaceHeight());
+                    canvas.drawRect(
+                            rectBounds,
+                            paint
+                    );
                 }
             }
+        } else {
+            canvas.drawRect(
+                    rectBounds,
+                    paint
+            );
+        }
 
-            paint.setColor(segment.getColor());
-
-            if (isLeftSegment || isRightSegment) {
-                roundingRadius = rectBounds.height() / 2;
-                roundRectangleBounds.set(rectBounds.left, rectBounds.top, rectBounds.right, rectBounds.bottom);
-                canvas.drawRoundRect(roundRectangleBounds, roundingRadius, roundingRadius, paint);
-                if (!isLeftAndRight) {
-                    if (isLeftSegment) {
-                        rectBounds.set(left + roundingRadius, valueSignSpaceHeight, right, barHeight + valueSignSpaceHeight);
-                        canvas.drawRect(
-                                rectBounds,
-                                paint
-                        );
-                    } else {
-                        rectBounds.set(left, valueSignSpaceHeight, right - roundingRadius, barHeight + valueSignSpaceHeight);
-                        canvas.drawRect(
-                                rectBounds,
-                                paint
-                        );
-                    }
-                }
-            } else {
-                canvas.drawRect(
-                        rectBounds,
-                        paint
-                );
-            }
-
+        if (showText) {
             String textToShow;
             if (isLeftSegment || isRightSegment) {
                 if (isLeftAndRight) {
@@ -125,21 +149,17 @@ public class SegmentedBarView extends View {
             }
 
             drawTextCentredInRect(canvas, textPaint, textToShow, rectBounds);
-
-            if (showDescriptionText) {
-                drawTextCentredInRect(canvas, descriptionTextPaint, segment.getDescriptionText(),
-                        new Rect(rectBounds.left, rectBounds.bottom, rectBounds.right, rectBounds.bottom + rectBounds.height()));
-            }
         }
 
-        if (showValue) {
-            drawValueSign(canvas, valueSignSpaceHeight, valueSignCenter);
+        if (showDescriptionText) {
+            drawTextCentredInRect(canvas, descriptionTextPaint, segment.getDescriptionText(),
+                    new Rect(rectBounds.left, rectBounds.bottom, rectBounds.right, rectBounds.bottom + rectBounds.height()));
         }
     }
 
     private void drawValueSign(Canvas canvas, int valueSignSpaceHeight, int valueSignCenter) {
         valueSignBounds.set(valueSignCenter - valueSignWidth / 2, 0, valueSignCenter + valueSignWidth / 2, valueSignHeight - arrowHeight);
-        paint.setColor(Color.parseColor("#7492E2"));
+        paint.setColor(valueSignColor);
         if (valueSignBounds.left < 0) {
             int difference = -valueSignBounds.left;
             roundRectangleBounds.set(valueSignBounds.left + difference, valueSignBounds.top, valueSignBounds.right + difference, valueSignBounds.bottom);
@@ -162,10 +182,10 @@ public class SegmentedBarView extends View {
                 new Rect((int) roundRectangleBounds.left, (int) roundRectangleBounds.top, (int) roundRectangleBounds.right, (int) roundRectangleBounds.bottom));
 
         int difference = 0;
-        if (valueSignCenter - arrowWidth / 2 < roundingRadius) {
-            difference = roundingRadius - valueSignCenter;
-        } else if (valueSignCenter + arrowWidth / 2 > getMeasuredWidth() - roundingRadius) {
-            difference = (getMeasuredWidth() - roundingRadius) - valueSignCenter;
+        if (valueSignCenter - arrowWidth / 2 < barRoundingRadius) {
+            difference = barRoundingRadius - valueSignCenter;
+        } else if (valueSignCenter + arrowWidth / 2 > getMeasuredWidth() - barRoundingRadius) {
+            difference = (getMeasuredWidth() - barRoundingRadius) - valueSignCenter;
         }
 
         Point point1 = new Point(valueSignCenter - arrowWidth / 2 + difference, valueSignSpaceHeight - arrowHeight);
@@ -195,6 +215,15 @@ public class SegmentedBarView extends View {
             height += barHeight;
         }
         setMeasuredDimension(width, height);
+    }
+
+    private int valueSignSpaceHeight() {
+        if (valueIsEmpty()) return 0;
+        return valueSignHeight;
+    }
+
+    private boolean valueIsEmpty() {
+        return value == -1;
     }
 
     private void init() {
@@ -264,5 +293,22 @@ public class SegmentedBarView extends View {
 
     public void setShowDescriptionText(boolean showDescriptionText) {
         this.showDescriptionText = showDescriptionText;
+    }
+
+    public void setValueSignSize(int width, int height) {
+        this.valueSignWidth = width;
+        this.valueSignHeight = height;
+    }
+
+    public void setValueSignColor(int valueSignColor) {
+        this.valueSignColor = valueSignColor;
+    }
+
+    public void setShowText(boolean showText) {
+        this.showText = showText;
+    }
+
+    public void setSideStyle(int sideStyle) {
+        this.sideStyle = sideStyle;
     }
 }
