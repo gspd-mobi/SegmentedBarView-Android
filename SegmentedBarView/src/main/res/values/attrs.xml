@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SegmentedBarView">
+        <attr name="sbv_segmentsCount" format="integer" />
+        <attr name="sbv_minValue" format="float" />
+        <attr name="sbv_maxValue" format="float" />
+        <attr name="sbv_showCurrentValueSign" format="boolean" />
+    </declare-styleable>
+</resources>
