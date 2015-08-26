@@ -12,6 +12,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp" />
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Created from xml:" />
+
+            <mobi.gspd.segmentedprogressview.SegmentedBarView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Created from code:" />
+
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

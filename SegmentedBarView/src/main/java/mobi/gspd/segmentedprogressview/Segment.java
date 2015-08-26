@@ -1,6 +1,7 @@
 package mobi.gspd.segmentedprogressview;
 
 public class Segment {
+    private String customText;
     private String descriptionText;
     private int color;
     private float minValue = -1;
@@ -10,6 +11,12 @@ public class Segment {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.descriptionText = descriptionText;
+        this.color = color;
+    }
+
+    public Segment(float minValue, float maxValue, int color) {
+        this.minValue = minValue;
+        this.maxValue = maxValue;
         this.color = color;
     }
 
