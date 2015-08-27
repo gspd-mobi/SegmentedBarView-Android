@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,7 @@ public class SegmentedBarView extends View {
     private int valueSignWidth = 300;
     private int arrowHeight = 20;
     private int arrowWidth = 40;
-    private int gapSize = 12;
+    private int gapWidth = 12;
     private int barHeight = 90;
 
     private int barRoundingRadius = 0;
@@ -49,7 +50,16 @@ public class SegmentedBarView extends View {
     private int sideStyle = SegmentedBarViewSideStyle.ROUNDED;
     private int sideTextStyle = SegmentedBarViewSideTextStyle.ONE_SIDED;
 
+    private int valueTextSize = 40;
+    private int descriptionTextSize = 40;
+    private int segmentTextSize = 40;
+
+    private int valueTextColor = Color.WHITE;
+    private int descriptionTextColor = Color.DKGRAY;
+    private int segmentTextColor = Color.WHITE;
+
     private Paint paintStroke;
+    private Paint valueTextPaint;
 
     public SegmentedBarView(Context context) {
         super(context);
@@ -105,7 +115,7 @@ public class SegmentedBarView extends View {
             textToShow = "Empty";
             rectBounds = new Rect((int) roundRectangleBounds.left,
                     (int) roundRectangleBounds.top, (int) roundRectangleBounds.right, (int) roundRectangleBounds.bottom);
-
+            textPaint.setTextSize(segmentTextSize);
             drawTextCentredInRect(canvas, textPaint, textToShow, rectBounds);
         }
     }
@@ -127,7 +137,7 @@ public class SegmentedBarView extends View {
         int segmentLeft = singleSegmentWidth * i;
 
         if (!isLeftSegment) {
-            segmentLeft += gapSize;
+            segmentLeft += gapWidth;
         }
         int segmentRight = singleSegmentWidth * (i + 1);
 
@@ -254,18 +264,25 @@ public class SegmentedBarView extends View {
             }
 
 //            drawTextCentredInRectSides(canvas, textPaint, textToShow, textCenterX, textCenterY);
+            textPaint.setTextSize(segmentTextSize);
+            textPaint.setColor(segmentTextColor);
             drawTextCentredInRect(canvas, textPaint, textToShow, rect);
         }
 
         //Drawing segment description text
         if (showDescriptionText) {
             Log.d("desc text y", rectBounds.height() + "");
+            descriptionTextPaint.setTextSize(descriptionTextSize);
+            descriptionTextPaint.setColor(descriptionTextColor);
 //            drawTextCentredInRectSides(canvas, descriptionTextPaint, segment.getDescriptionText(), textCenterX, textCenterY + rectBounds.height());
             drawTextCentredInRectSides(canvas, descriptionTextPaint, segment.getDescriptionText(), rect.left, rect.top + rectBounds.height(), rect.right, rect.bottom + rectBounds.height());
         }
     }
 
     private void drawValueSign(Canvas canvas, int valueSignSpaceHeight, int valueSignCenter) {
+        valueTextPaint.setTextSize(valueTextSize);
+        valueTextPaint.setColor(valueTextColor);
+
         boolean valueNotInSegments = valueSignCenter == -1;
         if (valueNotInSegments) {
             valueSignCenter = getContentWidth() / 2;
@@ -293,7 +310,7 @@ public class SegmentedBarView extends View {
 
         String text = String.format("%s", df.format(value));
         if (unit != null && !unit.isEmpty()) text += " " + unit;
-        drawTextCentredInRect(canvas, textPaint, text,
+        drawTextCentredInRect(canvas, valueTextPaint, text,
                 new Rect((int) roundRectangleBounds.left, (int) roundRectangleBounds.top, (int) roundRectangleBounds.right, (int) roundRectangleBounds.bottom));
 
         // Draw arrow
@@ -358,15 +375,20 @@ public class SegmentedBarView extends View {
     }
 
     private void init() {
-        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(60);
+        segmentTextSize = getResources().getDimensionPixelSize(R.dimen.sbv_segment_text_size);
         textPaint.setStyle(Paint.Style.FILL);
 
-        descriptionTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        valueTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        valueTextPaint.setColor(Color.WHITE);
+        valueTextPaint.setStyle(Paint.Style.FILL);
+        valueTextSize = getResources().getDimensionPixelSize(R.dimen.sbv_value_text_size);
+
+        descriptionTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         descriptionTextPaint.setColor(Color.DKGRAY);
-        descriptionTextPaint.setTextSize(50);
         descriptionTextPaint.setStyle(Paint.Style.FILL);
+        descriptionTextSize = getResources().getDimensionPixelSize(R.dimen.sbv_description_text_size);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
@@ -379,6 +401,13 @@ public class SegmentedBarView extends View {
         textBounds = new Rect();
         valueSignBounds = new Rect();
         roundRectangleBounds = new RectF();
+
+        barHeight = getResources().getDimensionPixelSize(R.dimen.sbv_bar_height);
+        valueSignHeight = getResources().getDimensionPixelSize(R.dimen.sbv_value_sign_height);
+        valueSignWidth = getResources().getDimensionPixelSize(R.dimen.sbv_value_sign_width);
+        arrowHeight = getResources().getDimensionPixelSize(R.dimen.sbv_arrow_height);
+        arrowWidth = getResources().getDimensionPixelSize(R.dimen.sbv_arrow_width);
+        gapWidth = getResources().getDimensionPixelSize(R.dimen.sbv_segment_gap_width);
     }
 
     public void drawTextCentredInRect(Canvas canvas, Paint paint, String text, Rect outsideRect) {
@@ -409,8 +438,8 @@ public class SegmentedBarView extends View {
         invalidate();
     }
 
-    public void setGapSize(int gapSize) {
-        this.gapSize = gapSize;
+    public void setGapWidth(int gapWidth) {
+        this.gapWidth = gapWidth;
     }
 
     public void setBarHeight(int barHeight) {
@@ -444,5 +473,29 @@ public class SegmentedBarView extends View {
 
     public void setSideTextStyle(int sideTextStyle) {
         this.sideTextStyle = sideTextStyle;
+    }
+
+    public void setDescriptionTextSize(int descriptionTextSize) {
+        this.descriptionTextSize = descriptionTextSize;
+    }
+
+    public void setSegmentTextSize(int segmentTextSize) {
+        this.segmentTextSize = segmentTextSize;
+    }
+
+    public void setValueTextSize(int valueTextSize) {
+        this.valueTextSize = valueTextSize;
+    }
+
+    public void setDescriptionTextColor(int descriptionTextColor) {
+        this.descriptionTextColor = descriptionTextColor;
+    }
+
+    public void setSegmentTextColor(int segmentTextColor) {
+        this.segmentTextColor = segmentTextColor;
+    }
+
+    public void setValueTextColor(int valueTextColor) {
+        this.valueTextColor = valueTextColor;
     }
 }
