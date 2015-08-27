@@ -26,42 +26,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUi() {
         createNormalBarView();
-        createDivider();
         createNormalBarViewWithPadding();
-        createDivider();
         createBarViewWithoutValueSign();
-        createDivider();
         createBarViewInMinPosition();
-        createDivider();
+        createBarViewInMinPositionWithPadding();
         createBarViewInMinPositionNormalSides();
-        createDivider();
         createBarViewInMaxPosition();
-        createDivider();
+        createBarViewInMaxPositionWithPadding();
         createBarViewWithCustomSettings();
-        createDivider();
         createBarViewWithManySegments();
-        createDivider();
         createBarViewWithOneSegment();
-        createDivider();
         createBarViewWithOnSegmentAngles();
-        createDivider();
         createBarViewWithTwoSegments();
-        createDivider();
         createBarViewWithNoSegments();
-        createDivider();
         createBarViewWithValueOutOfSegments();
-        createDivider();
         createNormalBarViewWithTwoSidedSideText();
-        createDivider();
         createNormalBarViewSideStyleNormal();
-        createDivider();
         createNormalBarViewSideStyleAngle();
-    }
-
-    private void createDivider() {
-        LinearLayout divider = new LinearLayout(this);
-        divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 20));
-        mainLayout.addView(divider);
     }
 
     private void createNormalBarView() {
@@ -77,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setUnit("m");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -92,9 +74,10 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setValue(4.96f);
         segmentedProgressView.setUnit("m");
         segmentedProgressView.setSegments(segments);
-        segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        segmentedProgressView.setPadding(40, 20, 40, 20);
-        segmentedProgressView.setBackgroundColor(Color.parseColor("#adefaa"));
+        segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(1000, 500));
+        segmentedProgressView.setPadding(200, 70, 50, 120);
+        segmentedProgressView.setShowDescriptionText(true);
+        segmentedProgressView.setSideStyle(SegmentedBarViewSideStyle.ANGLE);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -110,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setShowDescriptionText(true);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -126,6 +110,24 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setUnit("μ/l");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
+        mainLayout.addView(segmentedProgressView);
+    }
+
+    private void createBarViewInMinPositionWithPadding() {
+        SegmentedBarView segmentedProgressView = new SegmentedBarView(this);
+        ArrayList<Segment> segments = new ArrayList<>();
+        Segment segment = new Segment(0, 20f, "Low", Color.parseColor("#EF3D2F"));
+        segments.add(segment);
+        Segment segment2 = new Segment(20f, 50f, "Optimal", Color.parseColor("#8CC63E"));
+        segments.add(segment2);
+        Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
+        segments.add(segment3);
+        segmentedProgressView.setValue(0);
+        segmentedProgressView.setUnit("μ/l");
+        segmentedProgressView.setSegments(segments);
+        segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(300, 100, 100, 100);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setSideStyle(SegmentedBarViewSideStyle.NORMAL);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -159,6 +162,24 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setUnit("μ/l");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
+        mainLayout.addView(segmentedProgressView);
+    }
+
+    private void createBarViewInMaxPositionWithPadding() {
+        SegmentedBarView segmentedProgressView = new SegmentedBarView(this);
+        ArrayList<Segment> segments = new ArrayList<>();
+        Segment segment = new Segment(0, 20f, "Low", Color.parseColor("#EF3D2F"));
+        segments.add(segment);
+        Segment segment2 = new Segment(20f, 50f, "Optimal", Color.parseColor("#8CC63E"));
+        segments.add(segment2);
+        Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
+        segments.add(segment3);
+        segmentedProgressView.setValue(100);
+        segmentedProgressView.setUnit("μ/l");
+        segmentedProgressView.setSegments(segments);
+        segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(100, 100, 100, 100);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -182,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setGapSize(0);
         segmentedProgressView.setShowDescriptionText(true);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -227,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setShowText(false);
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -238,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setValue(13f);
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -251,12 +275,14 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setValue(34.1234f);
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
     private void createBarViewWithNoSegments() {
         SegmentedBarView segmentedProgressView = new SegmentedBarView(this);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -269,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setSideStyle(SegmentedBarViewSideStyle.ANGLE);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(50, 100, 30, 80);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -285,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setUnit("m");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -302,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setSideTextStyle(SegmentedBarViewSideTextStyle.TWO_SIDED);
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -321,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setShowDescriptionText(true);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 
@@ -340,6 +370,7 @@ public class MainActivity extends AppCompatActivity {
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setShowDescriptionText(true);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        segmentedProgressView.setPadding(0, 20, 0, 0);
         mainLayout.addView(segmentedProgressView);
     }
 }
