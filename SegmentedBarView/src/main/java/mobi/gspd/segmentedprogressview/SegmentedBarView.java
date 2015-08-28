@@ -8,9 +8,12 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.Html;
+import android.text.Layout;
+import android.text.Spanned;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.text.DecimalFormat;
@@ -59,7 +62,7 @@ public class SegmentedBarView extends View {
     private int segmentTextColor = Color.WHITE;
 
     private Paint paintStroke;
-    private Paint valueTextPaint;
+    private TextPaint valueTextPaint;
 
     public SegmentedBarView(Context context) {
         super(context);
@@ -75,12 +78,6 @@ public class SegmentedBarView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("SBV", "onDraw()");
-
-//        //temp rectangle to show paddings
-//        Rect rect = new Rect(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
-//        Log.d("rect temp", rect.width() + " " + rect.height());
-//        canvas.drawRect(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom(), paintStroke);
 
         int segmentsSize = segments == null ? 0 : segments.size();
         if (segmentsSize > 0) {
@@ -271,10 +268,8 @@ public class SegmentedBarView extends View {
 
         //Drawing segment description text
         if (showDescriptionText) {
-            Log.d("desc text y", rectBounds.height() + "");
             descriptionTextPaint.setTextSize(descriptionTextSize);
             descriptionTextPaint.setColor(descriptionTextColor);
-//            drawTextCentredInRectSides(canvas, descriptionTextPaint, segment.getDescriptionText(), textCenterX, textCenterY + rectBounds.height());
             drawTextCentredInRectSides(canvas, descriptionTextPaint, segment.getDescriptionText(), rect.left, rect.top + rectBounds.height(), rect.right, rect.bottom + rectBounds.height());
         }
     }
@@ -308,11 +303,6 @@ public class SegmentedBarView extends View {
                 paint
         );
 
-        String text = String.format("%s", df.format(value));
-        if (unit != null && !unit.isEmpty()) text += " " + unit;
-        drawTextCentredInRect(canvas, valueTextPaint, text,
-                new Rect((int) roundRectangleBounds.left, (int) roundRectangleBounds.top, (int) roundRectangleBounds.right, (int) roundRectangleBounds.bottom));
-
         // Draw arrow
         if (!valueNotInSegments) {
             int difference = 0;
@@ -328,6 +318,18 @@ public class SegmentedBarView extends View {
 
             drawTriangle(canvas, point1, point2, point3);
         }
+
+        // Draw value text
+        Rect rect = new Rect((int) roundRectangleBounds.left, (int) roundRectangleBounds.top, (int) roundRectangleBounds.right, (int) roundRectangleBounds.bottom);
+        String text = String.valueOf(value);
+        if (unit != null && !unit.isEmpty()) text += String.format(" <small>%s</small>", unit);
+
+        Rect r = new Rect();
+        valueTextPaint.getTextBounds(text, 0, text.length(), r);
+        Spanned spanned = Html.fromHtml(text);
+        StaticLayout layout = new StaticLayout(spanned, valueTextPaint, rect.width(), Layout.Alignment.ALIGN_CENTER, 0, 0, false);
+        canvas.translate(rect.left, rect.top + rect.height() / 2 - layout.getHeight() / 2);
+        layout.draw(canvas);
     }
 
     private void drawTriangle(Canvas canvas, Point point1, Point point2, Point point3) {
@@ -357,12 +359,6 @@ public class SegmentedBarView extends View {
         int h = resolveSizeAndState(minHeight, heightMeasureSpec, 0);
 
         setMeasuredDimension(w, h);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        Log.d("SBV", "onLayout()");
     }
 
     private int valueSignSpaceHeight() {

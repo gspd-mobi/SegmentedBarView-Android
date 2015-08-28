@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
         segmentedProgressView.setValue(4.96f);
-        segmentedProgressView.setUnit("m");
+        segmentedProgressView.setUnit("10<sup>12</sup>/l");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         segmentedProgressView.setPadding(0, 20, 0, 0);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
         segmentedProgressView.setValue(4.96f);
-        segmentedProgressView.setUnit("m");
+        segmentedProgressView.setUnit("m<sup>5</sup>/s<sup>2</sup>");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(1000, 500));
         segmentedProgressView.setPadding(200, 70, 50, 120);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
         segmentedProgressView.setValue(0);
-        segmentedProgressView.setUnit("μ/l");
+        segmentedProgressView.setUnit("μmol/l");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         segmentedProgressView.setPadding(0, 20, 0, 0);

@@ -6,7 +6,7 @@
 
     <dimen name="sbv_bar_height">24dp</dimen>
     <dimen name="sbv_value_sign_height">32dp</dimen>
-    <dimen name="sbv_value_sign_width">64dp</dimen>
+    <dimen name="sbv_value_sign_width">72dp</dimen>
     <dimen name="sbv_arrow_height">5dp</dimen>
     <dimen name="sbv_arrow_width">10dp</dimen>
 
