@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SegmentedProgressView</string>
+    <string name="app_name">SegmentedBarView</string>
+    <string name="sbv_empty">Empty</string>
 </resources>
