@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SegmentedBarView/SegmentedBarView.iml" filepath="$PROJECT_DIR$/SegmentedBarView/SegmentedBarView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SegmentsBarView.iml" filepath="$PROJECT_DIR$/SegmentsBarView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/segmentedbarview-android-library.iml" filepath="$PROJECT_DIR$/segmentedbarview-android-library.iml" />
     </modules>
   </component>
 </project>

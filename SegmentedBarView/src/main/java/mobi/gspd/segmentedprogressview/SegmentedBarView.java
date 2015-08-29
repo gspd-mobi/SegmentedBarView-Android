@@ -151,8 +151,6 @@ public class SegmentedBarView extends View {
 
         paint.setColor(segment.getColor());
 
-        float textCenterX = rectBounds.centerX();
-        float textCenterY = rectBounds.centerY();
         Rect rect = new Rect(rectBounds);
 
         // Drawing segment (with specific bounds if left or right)
@@ -260,7 +258,6 @@ public class SegmentedBarView extends View {
                 textToShow = String.format("%s - %s", df.format(segment.getMinValue()), df.format(segment.getMaxValue()));
             }
 
-//            drawTextCentredInRectSides(canvas, textPaint, textToShow, textCenterX, textCenterY);
             textPaint.setTextSize(segmentTextSize);
             textPaint.setColor(segmentTextColor);
             drawTextCentredInRect(canvas, textPaint, textToShow, rect);
@@ -327,7 +324,7 @@ public class SegmentedBarView extends View {
         Rect r = new Rect();
         valueTextPaint.getTextBounds(text, 0, text.length(), r);
         Spanned spanned = Html.fromHtml(text);
-        StaticLayout layout = new StaticLayout(spanned, valueTextPaint, rect.width(), Layout.Alignment.ALIGN_CENTER, 0, 0, false);
+        StaticLayout layout = new StaticLayout(spanned, valueTextPaint, rect.width(), Layout.Alignment.ALIGN_CENTER, 1, 0, false);
         canvas.translate(rect.left, rect.top + rect.height() / 2 - layout.getHeight() / 2);
         layout.draw(canvas);
     }
