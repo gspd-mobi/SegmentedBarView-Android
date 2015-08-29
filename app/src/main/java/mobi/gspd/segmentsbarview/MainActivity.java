@@ -7,10 +7,10 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-import mobi.gspd.segmentedprogressview.Segment;
-import mobi.gspd.segmentedprogressview.SegmentedBarView;
-import mobi.gspd.segmentedprogressview.SegmentedBarViewSideStyle;
-import mobi.gspd.segmentedprogressview.SegmentedBarViewSideTextStyle;
+import mobi.gspd.segmentedbarview.Segment;
+import mobi.gspd.segmentedbarview.SegmentedBarView;
+import mobi.gspd.segmentedbarview.SegmentedBarViewSideStyle;
+import mobi.gspd.segmentedbarview.SegmentedBarViewSideTextStyle;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        segmentedProgressView.setValue(4.96f);
-        segmentedProgressView.setUnit("10<sup>12</sup>/l");
+        segmentedProgressView.setValueWithUnit(4.96f, "10<sup>12</sup>/l");
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         segmentedProgressView.setPadding(0, 20, 0, 0);

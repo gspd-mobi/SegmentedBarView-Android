@@ -1,4 +1,4 @@
-package mobi.gspd.segmentedprogressview;
+package mobi.gspd.segmentedbarview;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

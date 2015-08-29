@@ -1,4 +1,4 @@
-package mobi.gspd.segmentedprogressview;
+package mobi.gspd.segmentedbarview;
 
 public class Segment {
     private String customText;

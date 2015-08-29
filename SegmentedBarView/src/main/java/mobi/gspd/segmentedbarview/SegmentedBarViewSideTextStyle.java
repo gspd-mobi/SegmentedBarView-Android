@@ -1,4 +1,4 @@
-package mobi.gspd.segmentedprogressview;
+package mobi.gspd.segmentedbarview;
 
 public class SegmentedBarViewSideTextStyle {
     public static final int ONE_SIDED = 0;
