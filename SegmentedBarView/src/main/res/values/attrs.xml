@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SegmentedBarView">
-        <attr name="sbv_show_current_value_sign" format="boolean" />
         <attr name="sbv_show_description_text" format="boolean" />
-        <attr name="sbv_show_value_text" format="boolean" />
+        <attr name="sbv_show_segment_text" format="boolean" />
 
         <attr name="sbv_empty_segment_text" format="string" />
 

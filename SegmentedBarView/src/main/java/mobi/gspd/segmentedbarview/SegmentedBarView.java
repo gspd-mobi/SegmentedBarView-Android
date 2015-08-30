@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Layout;
 import android.text.Spanned;
@@ -51,12 +52,13 @@ public class SegmentedBarView extends View {
     private int barRoundingRadius = 0;
 
     private int valueSignCenter = -1;
-    private boolean showDescriptionText = false;
 
-    private boolean showText = true;
+    private boolean showDescriptionText;
+    private boolean showSegmentText;
+
     private int sideStyle = SegmentedBarViewSideStyle.ROUNDED;
-
     private int sideTextStyle = SegmentedBarViewSideTextStyle.ONE_SIDED;
+
     private int valueTextSize;
     private int descriptionTextSize;
 
@@ -81,6 +83,7 @@ public class SegmentedBarView extends View {
     public SegmentedBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
+
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -115,15 +118,18 @@ public class SegmentedBarView extends View {
             descriptionBoxHeight = a.getDimensionPixelSize(R.styleable.SegmentedBarView_sbv_description_box_height,
                     resources.getDimensionPixelSize(R.dimen.sbv_description_box_height));
 
+            showSegmentText = a.getBoolean(R.styleable.SegmentedBarView_sbv_show_segment_text, true);
+            showDescriptionText = a.getBoolean(R.styleable.SegmentedBarView_sbv_show_description_text, false);
+
             emptySegmentText = a.getString(R.styleable.SegmentedBarView_sbv_empty_segment_text);
             if (emptySegmentText == null) {
                 emptySegmentText = resources.getString(R.string.sbv_empty);
             }
 
             valueSignColor = a.getColor(R.styleable.SegmentedBarView_sbv_value_sign_background,
-                    resources.getColor(R.color.sbv_value_sign_background));
+                    ContextCompat.getColor(context, R.color.sbv_value_sign_background));
             emptySegmentColor = a.getColor(R.styleable.SegmentedBarView_sbv_empty_segment_background,
-                    resources.getColor(R.color.sbv_empty_segment_background));
+                    ContextCompat.getColor(context, R.color.sbv_empty_segment_background));
 
             sideStyle = a.getInt(R.styleable.SegmentedBarView_sbv_side_style,
                     SegmentedBarViewSideStyle.ROUNDED);
@@ -239,7 +245,7 @@ public class SegmentedBarView extends View {
         }
 
 
-        if (showText) {
+        if (showSegmentText) {
             String textToShow;
             textToShow = emptySegmentText;
             segmentTextPaint.setTextSize(segmentTextSize);
@@ -374,7 +380,7 @@ public class SegmentedBarView extends View {
         }
 
         // Drawing segment text
-        if (showText) {
+        if (showSegmentText) {
             String textToShow;
             if (segment.getCustomText() != null) {
                 textToShow = segment.getCustomText();
@@ -573,8 +579,8 @@ public class SegmentedBarView extends View {
         requestLayout();
     }
 
-    public void setShowText(boolean showText) {
-        this.showText = showText;
+    public void setShowSegmentText(boolean showSegmentText) {
+        this.showSegmentText = showSegmentText;
         invalidate();
         requestLayout();
     }
@@ -650,100 +656,100 @@ public class SegmentedBarView extends View {
         private Builder() {
         }
 
-        public Builder setSegments(List<Segment> segments) {
+        public Builder segments(List<Segment> segments) {
             SegmentedBarView.this.segments = segments;
             return this;
         }
 
-        public Builder setUnit(String unit) {
+        public Builder unit(String unit) {
             SegmentedBarView.this.unit = unit;
             SegmentedBarView.this.createValueTextLayout();
             return this;
         }
 
-        public Builder setValue(float value) {
+        public Builder value(float value) {
             SegmentedBarView.this.value = value;
             SegmentedBarView.this.createValueTextLayout();
             return this;
         }
 
-        public Builder setGapWidth(int gapWidth) {
+        public Builder gapWidth(int gapWidth) {
             SegmentedBarView.this.gapWidth = gapWidth;
             return this;
         }
 
-        public Builder setBarHeight(int barHeight) {
+        public Builder barHeight(int barHeight) {
             SegmentedBarView.this.barHeight = barHeight;
             return this;
         }
 
-        public Builder setShowDescriptionText(boolean showDescriptionText) {
+        public Builder showDescriptionText(boolean showDescriptionText) {
             SegmentedBarView.this.showDescriptionText = showDescriptionText;
             return this;
         }
 
-        public Builder setValueSignSize(int width, int height) {
+        public Builder valueSignSize(int width, int height) {
             SegmentedBarView.this.valueSignWidth = width;
             SegmentedBarView.this.valueSignHeight = height;
             return this;
         }
 
-        public Builder setValueSignColor(int valueSignColor) {
+        public Builder valueSignColor(int valueSignColor) {
             SegmentedBarView.this.valueSignColor = valueSignColor;
             return this;
         }
 
-        public Builder setShowText(boolean showText) {
-            SegmentedBarView.this.showText = showText;
+        public Builder showSegmentText(boolean showText) {
+            SegmentedBarView.this.showSegmentText = showText;
             return this;
         }
 
-        public Builder setSideStyle(int sideStyle) {
+        public Builder sideStyle(int sideStyle) {
             SegmentedBarView.this.sideStyle = sideStyle;
             return this;
         }
 
-        public Builder setEmptySegmentColor(int emptySegmentColor) {
+        public Builder emptySegmentColor(int emptySegmentColor) {
             SegmentedBarView.this.emptySegmentColor = emptySegmentColor;
             return this;
         }
 
-        public Builder setSideTextStyle(int sideTextStyle) {
+        public Builder sideTextStyle(int sideTextStyle) {
             SegmentedBarView.this.sideTextStyle = sideTextStyle;
             return this;
         }
 
-        public Builder setDescriptionTextSize(int descriptionTextSize) {
+        public Builder descriptionTextSize(int descriptionTextSize) {
             SegmentedBarView.this.descriptionTextSize = descriptionTextSize;
             return this;
         }
 
-        public Builder setSegmentTextSize(int segmentTextSize) {
+        public Builder segmentTextSize(int segmentTextSize) {
             SegmentedBarView.this.segmentTextSize = segmentTextSize;
             return this;
         }
 
-        public Builder setValueTextSize(int valueTextSize) {
+        public Builder valueTextSize(int valueTextSize) {
             SegmentedBarView.this.valueTextSize = valueTextSize;
             return this;
         }
 
-        public Builder setDescriptionTextColor(int descriptionTextColor) {
+        public Builder descriptionTextColor(int descriptionTextColor) {
             SegmentedBarView.this.descriptionTextColor = descriptionTextColor;
             return this;
         }
 
-        public Builder setSegmentTextColor(int segmentTextColor) {
+        public Builder segmentTextColor(int segmentTextColor) {
             SegmentedBarView.this.segmentTextColor = segmentTextColor;
             return this;
         }
 
-        public Builder setValueTextColor(int valueTextColor) {
+        public Builder valueTextColor(int valueTextColor) {
             SegmentedBarView.this.valueTextColor = valueTextColor;
             return this;
         }
 
-        public Builder setDescriptionBoxHeight(int descriptionBoxHeight) {
+        public Builder descriptionBoxHeight(int descriptionBoxHeight) {
             SegmentedBarView.this.descriptionBoxHeight = descriptionBoxHeight;
             return this;
         }

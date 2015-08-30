@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 barView.setValue(50);
-                barView.setShowDescriptionText(true);
+                barView.setShowDescriptionText(false);
             }
         });
 
@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
         Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
         SegmentedBarView barView = SegmentedBarView.builder(this)
-                .setSegments(segments)
-                .setValue(5.25f)
-                .setUnit("ml<sup>2</sup>")
-                .setShowDescriptionText(true)
-                .setSideStyle(SegmentedBarViewSideStyle.ANGLE)
+                .segments(segments)
+                .value(5.25f)
+                .unit("ml<sup>2</sup>")
+                .showDescriptionText(true)
+                .sideStyle(SegmentedBarViewSideStyle.ANGLE)
                 .build();
         barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         barView.setPadding(0, 20, 0, 0);
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         segments.add(segment3);
         segmentedProgressView.setValue(13f);
-        segmentedProgressView.setShowText(false);
+        segmentedProgressView.setShowSegmentText(false);
         segmentedProgressView.setSegments(segments);
         segmentedProgressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         segmentedProgressView.setPadding(0, 20, 0, 0);
