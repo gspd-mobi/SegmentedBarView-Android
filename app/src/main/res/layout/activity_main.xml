@@ -21,12 +21,23 @@
                 android:text="Created from xml:" />
 
             <mobi.gspd.segmentedbarview.SegmentedBarView
+                android:id="@+id/bar_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                app:sbv_empty_segment_background="#f03"
-                app:sbv_empty_segment_text="No segments" />
+                app:sbv_side_text_style="twoSided"
+                app:sbv_empty_segment_text="No segments"
+                app:sbv_side_style="angle"
+                app:sbv_value_sign_height="30dp"
+                app:sbv_value_sign_round="8dp"
+                app:sbv_value_sign_width="30dp" />
 
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
             <TextView
                 android:layout_width="match_parent"

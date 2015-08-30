@@ -3,6 +3,7 @@ package mobi.gspd.segmentsbarview;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -25,6 +26,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+
+        final SegmentedBarView barView = (SegmentedBarView) findViewById(R.id.bar_view);
+        final ArrayList<Segment> segments = new ArrayList<>();
+        segments.add(new Segment(20, 40, "Normal", Color.BLUE));
+        segments.add(new Segment(40, 60, "Worse", Color.LTGRAY));
+        barView.setValue(30);
+        barView.setSegments(segments);
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barView.setValue(50);
+                barView.setShowDescriptionText(true);
+            }
+        });
+
         createNormalBarView();
         createNormalBarViewWithPadding();
         createBarViewWithoutValueSign();

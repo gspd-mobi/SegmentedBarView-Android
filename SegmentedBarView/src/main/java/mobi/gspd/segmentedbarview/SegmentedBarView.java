@@ -125,6 +125,11 @@ public class SegmentedBarView extends View {
             emptySegmentColor = a.getColor(R.styleable.SegmentedBarView_sbv_empty_segment_background,
                     resources.getColor(R.color.sbv_empty_segment_background));
 
+            sideStyle = a.getInt(R.styleable.SegmentedBarView_sbv_side_style,
+                    SegmentedBarViewSideStyle.ROUNDED);
+            sideTextStyle = a.getInt(R.styleable.SegmentedBarView_sbv_side_text_style,
+                    SegmentedBarViewSideTextStyle.ONE_SIDED);
+
 
         } finally {
             a.recycle();
@@ -164,7 +169,7 @@ public class SegmentedBarView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        valueSignCenter = -1;
         int segmentsSize = segments == null ? 0 : segments.size();
         if (segmentsSize > 0) {
             for (int i = 0; i < segmentsSize; i++) {
@@ -190,14 +195,55 @@ public class SegmentedBarView extends View {
         fillPaint.setColor(emptySegmentColor);
 
         barRoundingRadius = rectBounds.height() / 2;
-        roundRectangleBounds.set(rectBounds.left, rectBounds.top, rectBounds.right, rectBounds.bottom);
-        canvas.drawRoundRect(roundRectangleBounds, barRoundingRadius, barRoundingRadius, fillPaint);
+        if (barRoundingRadius > singleSegmentWidth / 2) {
+            sideStyle = SegmentedBarViewSideStyle.NORMAL;
+        }
+
+        segmentRect.set(rectBounds);
+
+        switch (sideStyle) {
+            case SegmentedBarViewSideStyle.ROUNDED:
+                roundRectangleBounds.set(rectBounds.left, rectBounds.top, rectBounds.right, rectBounds.bottom);
+                canvas.drawRoundRect(roundRectangleBounds, barRoundingRadius, barRoundingRadius, fillPaint);
+                break;
+            case SegmentedBarViewSideStyle.ANGLE:
+                rectBounds.set(barRoundingRadius + getPaddingLeft(),
+                        valueSignSpaceHeight() + getPaddingTop(),
+                        getWidth() - getPaddingRight() - barRoundingRadius,
+                        barHeight + valueSignSpaceHeight() + getPaddingTop());
+                canvas.drawRect(
+                        rectBounds,
+                        fillPaint
+                );
+                //Draw left triangle
+                point1.set(rectBounds.left - barRoundingRadius, rectBounds.top + barRoundingRadius);
+                point2.set(rectBounds.left, rectBounds.top);
+                point3.set(rectBounds.left, rectBounds.bottom);
+
+                drawTriangle(canvas, point1, point2, point3, fillPaint);
+
+                //Draw right triangle
+                point1.set(rectBounds.right + barRoundingRadius, rectBounds.top + barRoundingRadius);
+                point2.set(rectBounds.right, rectBounds.top);
+                point3.set(rectBounds.right, rectBounds.bottom);
+
+                drawTriangle(canvas, point1, point2, point3, fillPaint);
+                break;
+            case SegmentedBarViewSideStyle.NORMAL:
+                canvas.drawRect(
+                        rectBounds,
+                        fillPaint
+                );
+            default:
+                break;
+        }
+
 
         if (showText) {
             String textToShow;
             textToShow = emptySegmentText;
             segmentTextPaint.setTextSize(segmentTextSize);
-            drawTextCentredInRectWithSides(canvas, segmentTextPaint, textToShow, roundRectangleBounds.left, roundRectangleBounds.top, roundRectangleBounds.right, roundRectangleBounds.bottom);
+            drawTextCentredInRectWithSides(canvas, segmentTextPaint, textToShow, segmentRect.left, segmentRect.top, segmentRect.right, segmentRect.bottom);
         }
     }
 
@@ -358,7 +404,7 @@ public class SegmentedBarView extends View {
     private void drawValueSign(Canvas canvas, int valueSignSpaceHeight, int valueSignCenter) {
         boolean valueNotInSegments = valueSignCenter == -1;
         if (valueNotInSegments) {
-            valueSignCenter = getContentWidth() / 2;
+            valueSignCenter = getContentWidth() / 2 + getPaddingLeft();
         }
         valueSignBounds.set(valueSignCenter - valueSignWidth / 2,
                 getPaddingTop(),
@@ -455,6 +501,7 @@ public class SegmentedBarView extends View {
     }
 
     private void createValueTextLayout() {
+        if (valueIsEmpty()) return;
         String text = formatter.format(value);
         if (unit != null && !unit.isEmpty()) text += String.format(" <small>%s</small>", unit);
         Spanned spanned = Html.fromHtml(text);
@@ -464,89 +511,129 @@ public class SegmentedBarView extends View {
 
     public void setSegments(List<Segment> segments) {
         this.segments = segments;
+        invalidate();
+        requestLayout();
     }
 
     public void setUnit(String unit) {
         this.unit = unit;
         createValueTextLayout();
+        invalidate();
+        requestLayout();
     }
 
     public void setValue(float value) {
         this.value = value;
         createValueTextLayout();
+        invalidate();
+        requestLayout();
     }
 
     public void setValueWithUnit(float value, String unitHtml) {
         this.value = value;
         this.unit = unitHtml;
         if (!valueIsEmpty()) createValueTextLayout();
+        invalidate();
+        requestLayout();
     }
 
     public void setGapWidth(int gapWidth) {
         this.gapWidth = gapWidth;
+        invalidate();
+        requestLayout();
     }
 
     public void setBarHeight(int barHeight) {
         this.barHeight = barHeight;
+        invalidate();
+        requestLayout();
     }
 
     public void setShowDescriptionText(boolean showDescriptionText) {
         this.showDescriptionText = showDescriptionText;
+        invalidate();
+        requestLayout();
     }
 
     public void setValueSignSize(int width, int height) {
         this.valueSignWidth = width;
         this.valueSignHeight = height;
         if (!valueIsEmpty()) createValueTextLayout();
+        invalidate();
+        requestLayout();
     }
 
     public void setValueSignColor(int valueSignColor) {
         this.valueSignColor = valueSignColor;
+        invalidate();
+        requestLayout();
     }
 
     public void setShowText(boolean showText) {
         this.showText = showText;
+        invalidate();
+        requestLayout();
     }
 
     public void setSideStyle(int sideStyle) {
         this.sideStyle = sideStyle;
+        invalidate();
+        requestLayout();
     }
 
     public void setEmptySegmentColor(int emptySegmentColor) {
         this.emptySegmentColor = emptySegmentColor;
+        invalidate();
+        requestLayout();
     }
 
     public void setSideTextStyle(int sideTextStyle) {
         this.sideTextStyle = sideTextStyle;
+        invalidate();
+        requestLayout();
     }
 
     public void setDescriptionTextSize(int descriptionTextSize) {
         this.descriptionTextSize = descriptionTextSize;
+        invalidate();
+        requestLayout();
     }
 
     public void setSegmentTextSize(int segmentTextSize) {
         this.segmentTextSize = segmentTextSize;
+        invalidate();
+        requestLayout();
     }
 
     public void setValueTextSize(int valueTextSize) {
         this.valueTextSize = valueTextSize;
         valueTextPaint.setTextSize(valueTextSize);
+        invalidate();
+        requestLayout();
     }
 
     public void setDescriptionTextColor(int descriptionTextColor) {
         this.descriptionTextColor = descriptionTextColor;
+        invalidate();
+        requestLayout();
     }
 
     public void setSegmentTextColor(int segmentTextColor) {
         this.segmentTextColor = segmentTextColor;
+        invalidate();
+        requestLayout();
     }
 
     public void setValueTextColor(int valueTextColor) {
         this.valueTextColor = valueTextColor;
         valueTextPaint.setColor(valueTextColor);
+        invalidate();
+        requestLayout();
     }
 
     public void setDescriptionBoxHeight(int descriptionBoxHeight) {
         this.descriptionBoxHeight = descriptionBoxHeight;
+        invalidate();
+        requestLayout();
     }
 }
