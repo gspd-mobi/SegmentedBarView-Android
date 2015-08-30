@@ -25,6 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
+                app:sbv_segment_text_size="20sp"
+                app:sbv_segment_gap_width="10dp"
                 app:sbv_side_text_style="twoSided"
                 app:sbv_empty_segment_text="No segments"
                 app:sbv_side_style="angle"

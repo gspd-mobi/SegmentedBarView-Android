@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createNormalBarView();
+        createBarViewWithBuilder();
         createNormalBarViewWithPadding();
         createBarViewWithoutValueSign();
         createBarViewInMinPosition();
@@ -78,12 +79,32 @@ public class MainActivity extends AppCompatActivity {
         mainLayout.addView(segmentedProgressView);
     }
 
+    private void createBarViewWithBuilder() {
+        ArrayList<Segment> segments = new ArrayList<>();
+        Segment segment = new Segment(0, 4.5f, "Low", Color.parseColor("#EF3D2F"));
+        segments.add(segment);
+        Segment segment2 = new Segment(4.5f, 6.5f, "Optimal", Color.parseColor("#8CC63E"));
+        segments.add(segment2);
+        Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
+        segments.add(segment3);
+        SegmentedBarView barView = SegmentedBarView.builder(this)
+                .setSegments(segments)
+                .setValue(5.25f)
+                .setUnit("ml<sup>2</sup>")
+                .setShowDescriptionText(true)
+                .setSideStyle(SegmentedBarViewSideStyle.ANGLE)
+                .build();
+        barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        barView.setPadding(0, 20, 0, 0);
+        mainLayout.addView(barView);
+    }
+
     private void createNormalBarViewWithPadding() {
         SegmentedBarView segmentedProgressView = new SegmentedBarView(this);
         ArrayList<Segment> segments = new ArrayList<>();
         Segment segment = new Segment(0, 4.5f, "Low", Color.parseColor("#EF3D2F"));
         segments.add(segment);
-        Segment segment2 = new Segment(4.5f, 6.5f, "Optimal", Color.parseColor("#8CC63E"));
+        Segment segment2 = new Segment(4.5f, 6.5f, "Some text", "Optimal", Color.parseColor("#8CC63E"));
         segments.add(segment2);
         Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);

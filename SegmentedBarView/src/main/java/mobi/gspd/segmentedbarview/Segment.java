@@ -20,6 +20,14 @@ public class Segment {
         this.color = color;
     }
 
+    public Segment(float minValue, float maxValue, String customText, String descriptionText, int color) {
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+        this.customText = customText;
+        this.descriptionText = descriptionText;
+        this.color = color;
+    }
+
     public String getDescriptionText() {
         return descriptionText;
     }
@@ -34,6 +42,30 @@ public class Segment {
 
     public float getMaxValue() {
         return maxValue;
+    }
+
+    public String getCustomText() {
+        return customText;
+    }
+
+    public void setCustomText(String customText) {
+        this.customText = customText;
+    }
+
+    public void setDescriptionText(String descriptionText) {
+        this.descriptionText = descriptionText;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setMinValue(float minValue) {
+        this.minValue = minValue;
+    }
+
+    public void setMaxValue(float maxValue) {
+        this.maxValue = maxValue;
     }
 
     @Override
