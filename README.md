@@ -9,6 +9,7 @@ Custom UI control for android which is showing data as a segments and a value in
 ## Install ##
 
 ### Local aar ###
+[ ![Download](https://api.bintray.com/packages/gspd-mobi/segmentedbarview/mobi.gspd.segmentedbarview/images/download.svg) ](https://bintray.com/gspd-mobi/segmentedbarview/mobi.gspd.segmentedbarview/_latestVersion)
 
 Put **aar** into ``app/libs`` folder.
 Add flatDir in ``build.gradle``
@@ -16,7 +17,7 @@ Add flatDir in ``build.gradle``
 repositories {
     mavenCentral()
     flatDir {
-        dirs 'libs' //this way we can find the .aar file in libs folder
+        dirs 'libs'
     }
 }
 ```
@@ -24,6 +25,19 @@ repositories {
 And add dependency 
 ```groovy
 compile 'mobi.gspd.segmentedbarview:segmentedbarview:1.0@aar'
+```
+
+### From repositories ###
+
+Add jcenter to project repositories
+```groovy
+repositories {
+    jcenter()
+}
+```
+Add compile line to project dependencies
+```groovy
+compile 'mobi.gspd:SegmentedBarView:1.0.2@aar'
 ```
 
 ## Usage ##
