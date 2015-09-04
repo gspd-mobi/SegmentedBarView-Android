@@ -5,8 +5,19 @@ Custom UI control for android which is showing data as a segments and a value in
 ### Screenshots ###
 ![Imgur](http://i.imgur.com/E1ivT7N.png)
 
-
 ## Install ##
+
+### From repositories ###
+Add jcenter to project repositories
+```groovy
+repositories {
+    jcenter()
+}
+```
+Add compile line to project dependencies
+```groovy
+compile 'mobi.gspd:SegmentedBarView:1.0.6@aar'
+```
 
 ### Local aar ###
 [ ![Download](https://api.bintray.com/packages/gspd-mobi/segmentedbarview/mobi.gspd.segmentedbarview/images/download.svg) ](https://bintray.com/gspd-mobi/segmentedbarview/mobi.gspd.segmentedbarview/_latestVersion)
@@ -24,20 +35,7 @@ repositories {
 
 And add dependency 
 ```groovy
-compile 'mobi.gspd.segmentedbarview:segmentedbarview:1.0@aar'
-```
-
-### From repositories ###
-
-Add jcenter to project repositories
-```groovy
-repositories {
-    jcenter()
-}
-```
-Add compile line to project dependencies
-```groovy
-compile 'mobi.gspd:SegmentedBarView:1.0.2@aar'
+compile 'mobi.gspd:segmentedbarview:1.0.6@aar'
 ```
 
 ## Usage ##

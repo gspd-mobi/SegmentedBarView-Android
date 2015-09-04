@@ -1,4 +1,4 @@
-version = "1.0.1"
+version = "1.0.6"
 group = "mobi.gspd"
 
 def siteUrl = 'https://github.com/gspd-mobi/SegmentedBarView'
@@ -42,7 +42,7 @@ install {
     repositories.mavenInstaller {
         pom {
             project {
-                artifactId = 'SegmentedBarView'
+                artifactId = 'segmentedbarview'
                 packaging 'aar'
 
                 name 'Custom UI control for android which is showing data as a segments and a value inside them.'
@@ -80,7 +80,7 @@ bintray {
     configurations = ['archives']
     pkg {
         name = 'mobi.gspd.segmentedbarview'
-        repo = "SegmentedBarView"
+        repo = "segmentedbarview"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         userOrg = 'gspd-mobi'
@@ -93,3 +93,13 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.0.0'
 }
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
