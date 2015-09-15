@@ -52,7 +52,7 @@ SegmentedBarView barView = SegmentedBarView.builder(this)
 #### Constructor and setters ####
 ```java
 SegmentedBarView barView = new SegmentedBarView(this);
-barView.setValueWithUnit(4.96f, "10<sup>12</sup>/l");
+barView.setValueWithUnit(4.96f, "10<sup>12</sup>/l"); /* You can use Html tags here in unit to support superscript and subscript */
 barView.setSegments(segments);
 ```
 #### Within xml layout ####
