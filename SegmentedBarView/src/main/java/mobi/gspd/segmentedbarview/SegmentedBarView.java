@@ -516,10 +516,11 @@ public class SegmentedBarView extends View {
     }
 
     private void createValueTextLayout() {
-        if (valueIsEmpty() || valueSegment != null) return;
+        if (valueIsEmpty()) return;
         Log.d("value", value + " " + valueSegment + " empty=" + valueIsEmpty());
-        String text = formatter.format(value);
-        if (unit != null && !unit.isEmpty()) text += String.format(" <small>%s</small>", unit);
+        String text = value != null ? formatter.format(value) : "";
+        if (value != null && unit != null && !unit.isEmpty())
+            text += String.format(" <small>%s</small>", unit);
         Spanned spanned = Html.fromHtml(text);
 
         valueTextLayout = new StaticLayout(spanned, valueTextPaint, valueSignWidth, Layout.Alignment.ALIGN_CENTER, 1, 0, false);
