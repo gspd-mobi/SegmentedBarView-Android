@@ -16,7 +16,7 @@ repositories {
 ```
 Add compile line to project dependencies
 ```groovy
-compile 'mobi.gspd:segmentedbarview:1.0.6@aar'
+compile 'mobi.gspd:segmentedbarview:1.1.1@aar'
 ```
 
 ### Local aar ###
@@ -35,7 +35,7 @@ repositories {
 
 And add dependency 
 ```groovy
-compile 'mobi.gspd:segmentedbarview:1.0.6@aar'
+compile 'mobi.gspd:segmentedbarview:1.1.1@aar'
 ```
 
 ## Usage ##
@@ -86,6 +86,8 @@ Segment segment3 = new Segment(6.5f, 20f, "High", Color.parseColor("#EF3D2F"));
 segments.add(segment3);
 ```
 Each segment contains min and max value, color, description text (optional), custom text (optional). Value sign position is calculated automatically in these intervals.
+
+Also there can be segments with no min and max. Then you should set `valueSegment` field of SegmentedBarView, it's just an index of segment to show value sign over.
 
 
 ## Customization ##
