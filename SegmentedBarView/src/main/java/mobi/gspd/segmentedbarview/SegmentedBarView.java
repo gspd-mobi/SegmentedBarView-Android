@@ -17,6 +17,7 @@ import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.text.DecimalFormat;
@@ -26,7 +27,9 @@ public class SegmentedBarView extends View {
 
     private List<Segment> segments;
     private String unit;
+
     private Float value;
+    private Integer valueSegment;
 
     private Rect rectBounds;
     private Rect valueSignBounds;
@@ -178,10 +181,10 @@ public class SegmentedBarView extends View {
         valueSignCenter = -1;
         int segmentsSize = segments == null ? 0 : segments.size();
         if (segmentsSize > 0) {
-            for (int i = 0; i < segmentsSize; i++) {
-                Segment segment = segments.get(i);
+            for (int segmentIndex = 0; segmentIndex < segmentsSize; segmentIndex++) {
+                Segment segment = segments.get(segmentIndex);
 
-                drawSegment(canvas, segment, i, segmentsSize);
+                drawSegment(canvas, segment, segmentIndex, segmentsSize);
             }
         } else {
             drawEmptySegment(canvas);
@@ -261,28 +264,28 @@ public class SegmentedBarView extends View {
         return getHeight() - getPaddingTop() - getPaddingBottom();
     }
 
-    private void drawSegment(Canvas canvas, Segment segment, int i, int segmentsSize) {
-        boolean isLeftSegment = i == 0;
-        boolean isRightSegment = i == segmentsSize - 1;
+    private void drawSegment(Canvas canvas, Segment segment, int segmentIndex, int segmentsSize) {
+        boolean isLeftSegment = segmentIndex == 0;
+        boolean isRightSegment = segmentIndex == segmentsSize - 1;
         boolean isLeftAndRight = isLeftSegment && isRightSegment;
 
         int singleSegmentWidth = getContentWidth() / segmentsSize;
-        int segmentLeft = singleSegmentWidth * i;
+        int segmentLeft = singleSegmentWidth * segmentIndex;
 
         if (!isLeftSegment) {
             segmentLeft += gapWidth;
         }
-        int segmentRight = singleSegmentWidth * (i + 1);
+        int segmentRight = singleSegmentWidth * (segmentIndex + 1);
 
         // Segment bounds
         rectBounds.set(segmentLeft + getPaddingLeft(), valueSignSpaceHeight() + getPaddingTop(), segmentRight + getPaddingLeft(), barHeight + valueSignSpaceHeight() + getPaddingTop());
 
         // Calculating value sign position
-        if (!valueIsEmpty()) {
-            if (value >= segment.getMinValue() && value < segment.getMaxValue() || (isRightSegment && segment.getMaxValue() == value)) {
-                float valueSignCenterPercent = (value - segment.getMinValue()) / (segment.getMaxValue() - segment.getMinValue());
-                valueSignCenter = (int) (segmentLeft + getPaddingLeft() + valueSignCenterPercent * singleSegmentWidth);
-            }
+        if (valueSegment != null && valueSegment == segmentIndex) {
+            valueSignCenter = segmentLeft + getPaddingLeft() + (singleSegmentWidth / 2);
+        } else if (value != null && (value >= segment.getMinValue() && value < segment.getMaxValue() || (isRightSegment && segment.getMaxValue() == value))) {
+            float valueSignCenterPercent = (value - segment.getMinValue()) / (segment.getMaxValue() - segment.getMinValue());
+            valueSignCenter = (int) (segmentLeft + getPaddingLeft() + valueSignCenterPercent * singleSegmentWidth);
         }
 
         fillPaint.setColor(segment.getColor());
@@ -456,8 +459,10 @@ public class SegmentedBarView extends View {
         }
 
         // Draw value text
-        canvas.translate(roundRectangleBounds.left, roundRectangleBounds.top + roundRectangleBounds.height() / 2 - valueTextLayout.getHeight() / 2);
-        valueTextLayout.draw(canvas);
+        if (valueTextLayout != null) {
+            canvas.translate(roundRectangleBounds.left, roundRectangleBounds.top + roundRectangleBounds.height() / 2 - valueTextLayout.getHeight() / 2);
+            valueTextLayout.draw(canvas);
+        }
     }
 
     private void drawTriangle(Canvas canvas, Point point1, Point point2, Point point3, Paint paint) {
@@ -494,7 +499,7 @@ public class SegmentedBarView extends View {
     }
 
     private boolean valueIsEmpty() {
-        return value == null;
+        return value == null && valueSegment == null;
     }
 
     public void drawTextCentredInRect(Canvas canvas, Paint paint, String text, Rect outsideRect) {
@@ -511,7 +516,8 @@ public class SegmentedBarView extends View {
     }
 
     private void createValueTextLayout() {
-        if (valueIsEmpty()) return;
+        if (valueIsEmpty() || valueSegment != null) return;
+        Log.d("value", value + " " + valueSegment + " empty=" + valueIsEmpty());
         String text = formatter.format(value);
         if (unit != null && !unit.isEmpty()) text += String.format(" <small>%s</small>", unit);
         Spanned spanned = Html.fromHtml(text);
@@ -647,6 +653,15 @@ public class SegmentedBarView extends View {
         requestLayout();
     }
 
+
+    public Integer getValueSegment() {
+        return valueSegment;
+    }
+
+    public void setValueSegment(Integer valueSegment) {
+        this.valueSegment = valueSegment;
+    }
+
     public static Builder builder(Context context) {
         return new SegmentedBarView(context).new Builder();
     }
@@ -669,6 +684,12 @@ public class SegmentedBarView extends View {
 
         public Builder value(float value) {
             SegmentedBarView.this.value = value;
+            SegmentedBarView.this.createValueTextLayout();
+            return this;
+        }
+
+        public Builder valueSegment(Integer valueSegment) {
+            SegmentedBarView.this.valueSegment = valueSegment;
             SegmentedBarView.this.createValueTextLayout();
             return this;
         }

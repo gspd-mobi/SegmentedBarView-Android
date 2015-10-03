@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createNormalBarView();
+        createBarViewWithoutNumericValue();
         createNormalBarViewSideStyleNormal();
         createNormalBarViewSideStyleAngle();
         createBarViewInMinPosition();
@@ -73,6 +74,25 @@ public class MainActivity extends AppCompatActivity {
         createNormalBarViewWithTwoSidedSideText();
         createNormalBarViewSideStyleNormal();
         createNormalBarViewSideStyleAngle();
+    }
+
+    private void createBarViewWithoutNumericValue() {
+        ArrayList<Segment> segments = new ArrayList<>();
+        Segment segment = new Segment("Negative Left", null, Color.parseColor("#EF3D2F"));
+        segments.add(segment);
+        Segment segment2 = new Segment("Positive", null, Color.parseColor("#8CC63E"));
+        segments.add(segment2);
+        Segment segment3 = new Segment("Negative Right", null, Color.parseColor("#EF3D2F"));
+        segments.add(segment3);
+        SegmentedBarView barView = SegmentedBarView.builder(this)
+                .segments(segments)
+                .valueSegment(2)
+                .unit("ml<sup>2</sup>")
+                .sideStyle(SegmentedBarViewSideStyle.ANGLE)
+                .build();
+        barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        barView.setPadding(0, getResources().getDimensionPixelSize(R.dimen.vertical_padding), 0, 0);
+        mainLayout.addView(barView);
     }
 
     private void createNormalBarView() {
