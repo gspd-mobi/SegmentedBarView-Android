@@ -516,7 +516,10 @@ public class SegmentedBarView extends View {
     }
 
     private void createValueTextLayout() {
-        if (valueIsEmpty()) return;
+        if (valueIsEmpty()) {
+            valueTextLayout = null;
+            return;
+        }
         Log.d("value", value + " " + valueSegment + " empty=" + valueIsEmpty());
         String text = value != null ? formatter.format(value) : "";
         if (value != null && unit != null && !unit.isEmpty())
@@ -539,14 +542,14 @@ public class SegmentedBarView extends View {
         requestLayout();
     }
 
-    public void setValue(float value) {
+    public void setValue(Float value) {
         this.value = value;
         createValueTextLayout();
         invalidate();
         requestLayout();
     }
 
-    public void setValueWithUnit(float value, String unitHtml) {
+    public void setValueWithUnit(Float value, String unitHtml) {
         this.value = value;
         this.unit = unitHtml;
         if (!valueIsEmpty()) createValueTextLayout();
@@ -683,7 +686,7 @@ public class SegmentedBarView extends View {
             return this;
         }
 
-        public Builder value(float value) {
+        public Builder value(Float value) {
             SegmentedBarView.this.value = value;
             SegmentedBarView.this.createValueTextLayout();
             return this;

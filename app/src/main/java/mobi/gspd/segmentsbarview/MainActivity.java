@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<Segment> segments = new ArrayList<>();
         segments.add(new Segment(20, 40, "Normal", Color.BLUE));
         segments.add(new Segment(40, 60, "Worse", Color.LTGRAY));
-        barView.setValue(30);
+        barView.setValue(30f);
         barView.setSegments(segments);
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                barView.setValue(50);
+                barView.setValue(50f);
                 barView.setShowDescriptionText(false);
             }
         });
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        barView.setValue(0);
+        barView.setValue(0f);
         barView.setUnit("μmol/l");
         barView.setSegments(segments);
         barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        barView.setValue(0);
+        barView.setValue(0f);
         barView.setUnit("μ/l");
         barView.setSegments(segments);
         barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        barView.setValue(0);
+        barView.setValue(0f);
         barView.setUnit("μ/l");
         barView.setSegments(segments);
         barView.setSideStyle(SegmentedBarViewSideStyle.NORMAL);
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        barView.setValue(100);
+        barView.setValue(100f);
         barView.setUnit("μ/l");
         barView.setSegments(segments);
         barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(50f, 100f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        barView.setValue(100);
+        barView.setValue(100f);
         barView.setUnit("μ/l");
         barView.setSegments(segments);
         barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         Segment segment4 = new Segment(100f, 150f, "Perfect", Color.parseColor("#911146"));
         segments.add(segment4);
         barView.setValueSignColor(Color.parseColor("#1A5717"));
-        barView.setValue(90);
+        barView.setValue(90f);
         barView.setBarHeight(140);
         barView.setValueSignSize(220, 130);
         barView.setSegments(segments);
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment2);
         Segment segment3 = new Segment(55f, 70f, "High", Color.parseColor("#EF3D2F"));
         segments.add(segment3);
-        barView.setValue(20);
+        barView.setValue(20f);
         barView.setUnit("m");
         barView.setSegments(segments);
         barView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
