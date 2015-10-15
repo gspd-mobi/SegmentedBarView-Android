@@ -30,6 +30,7 @@ public class SegmentedBarView extends View {
 
     private Float value;
     private Integer valueSegment;
+    private String valueSegmentText;
 
     private Rect rectBounds;
     private Rect valueSignBounds;
@@ -124,6 +125,10 @@ public class SegmentedBarView extends View {
             showSegmentText = a.getBoolean(R.styleable.SegmentedBarView_sbv_show_segment_text, true);
             showDescriptionText = a.getBoolean(R.styleable.SegmentedBarView_sbv_show_description_text, false);
 
+            valueSegmentText = a.getString(R.styleable.SegmentedBarView_sbv_value_segment_text);
+            if (valueSegmentText == null) {
+                valueSegmentText = resources.getString(R.string.sbv_value_segment);
+            }
             emptySegmentText = a.getString(R.styleable.SegmentedBarView_sbv_empty_segment_text);
             if (emptySegmentText == null) {
                 emptySegmentText = resources.getString(R.string.sbv_empty);
@@ -520,14 +525,25 @@ public class SegmentedBarView extends View {
             valueTextLayout = null;
             return;
         }
-        Log.d("value", value + " " + valueSegment + " empty=" + valueIsEmpty());
-        String text = value != null ? formatter.format(value) : "";
+        String text = value != null ? formatter.format(value) : valueSegmentText;
         if (value != null && unit != null && !unit.isEmpty())
             text += String.format(" <small>%s</small>", unit);
         Spanned spanned = Html.fromHtml(text);
 
         valueTextLayout = new StaticLayout(spanned, valueTextPaint, valueSignWidth, Layout.Alignment.ALIGN_CENTER, 1, 0, false);
     }
+
+    public String getValueSegmentText() {
+        return valueSegmentText;
+    }
+
+    public void setValueSegmentText(String valueSegmentText) {
+        this.valueSegmentText = valueSegmentText;
+        createValueTextLayout();
+        invalidate();
+        requestLayout();
+    }
+
 
     public void setSegments(List<Segment> segments) {
         this.segments = segments;
@@ -694,6 +710,12 @@ public class SegmentedBarView extends View {
 
         public Builder valueSegment(Integer valueSegment) {
             SegmentedBarView.this.valueSegment = valueSegment;
+            SegmentedBarView.this.createValueTextLayout();
+            return this;
+        }
+
+        public Builder valueSegmentText(String valueSegmentText) {
+            SegmentedBarView.this.valueSegmentText = valueSegmentText;
             SegmentedBarView.this.createValueTextLayout();
             return this;
         }

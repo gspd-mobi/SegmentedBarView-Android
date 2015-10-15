@@ -16,7 +16,7 @@ repositories {
 ```
 Add compile line to project dependencies
 ```groovy
-compile 'mobi.gspd:segmentedbarview:1.1.3@aar'
+compile 'mobi.gspd:segmentedbarview:1.1.5@aar'
 ```
 
 ### Local aar ###
@@ -35,7 +35,7 @@ repositories {
 
 And add dependency 
 ```groovy
-compile 'mobi.gspd:segmentedbarview:1.1.3@aar'
+compile 'mobi.gspd:segmentedbarview:1.1.5@aar'
 ```
 
 ## Usage ##

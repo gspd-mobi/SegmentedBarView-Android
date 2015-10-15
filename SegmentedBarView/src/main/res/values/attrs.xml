@@ -5,6 +5,7 @@
         <attr name="sbv_show_segment_text" format="boolean" />
 
         <attr name="sbv_empty_segment_text" format="string" />
+        <attr name="sbv_value_segment_text" format="string" />
 
         <attr name="sbv_value_sign_background" format="color" />
         <attr name="sbv_empty_segment_background" format="color" />

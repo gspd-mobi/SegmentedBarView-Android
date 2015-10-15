@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         segments.add(segment3);
         SegmentedBarView barView = SegmentedBarView.builder(this)
                 .segments(segments)
-                .value(3.53f)
                 .valueSegment(1)
+                .valueSegmentText("Your result")
                 .unit("ml<sup>2</sup>")
                 .sideStyle(SegmentedBarViewSideStyle.ANGLE)
                 .build();
