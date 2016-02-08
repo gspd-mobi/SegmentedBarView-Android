@@ -17,12 +17,12 @@ import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class SegmentedBarView extends View {
 
     private List<Segment> segments;
@@ -274,13 +274,9 @@ public class SegmentedBarView extends View {
         boolean isRightSegment = segmentIndex == segmentsSize - 1;
         boolean isLeftAndRight = isLeftSegment && isRightSegment;
 
-        int singleSegmentWidth = getContentWidth() / segmentsSize;
-        int segmentLeft = singleSegmentWidth * segmentIndex;
-
-        if (!isLeftSegment) {
-            segmentLeft += gapWidth;
-        }
-        int segmentRight = singleSegmentWidth * (segmentIndex + 1);
+        int singleSegmentWidth = (getContentWidth() + gapWidth) / segmentsSize - gapWidth;
+        int segmentLeft = (singleSegmentWidth + gapWidth) * segmentIndex;
+        int segmentRight = segmentLeft + singleSegmentWidth;
 
         // Segment bounds
         rectBounds.set(segmentLeft + getPaddingLeft(), valueSignSpaceHeight() + getPaddingTop(), segmentRight + getPaddingLeft(), barHeight + valueSignSpaceHeight() + getPaddingTop());
