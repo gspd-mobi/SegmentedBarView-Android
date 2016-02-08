@@ -1,4 +1,4 @@
-Segmented Bar View
+Segmented Bar View for Android
 =============================
 Custom UI control for android which is showing data as a segments and a value inside them.
 
